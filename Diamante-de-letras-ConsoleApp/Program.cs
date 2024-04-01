@@ -5,16 +5,25 @@
         static void Main(string[] args)
         {
             {
-                Console.WriteLine("Diamante de Letras | Academia de Programação 2024!\n");
+                Console.WriteLine("Diamante de Letras 1.0 | Academia de Programação 2024!\n");
 
-                string letra = obterValor<string>("Digite uma letra para gerar o diamante: "); // Veja a linha 20;
+                while (true)
+                {
+                    char[] alfabetoArray;
+                    int indexDoArray;
+                    dadosDoDiamante(out alfabetoArray, out indexDoArray);
 
-                char[] alfabetoArray;
-                int indexDoArray;
-                dadosDoDiamante(letra, out alfabetoArray, out indexDoArray);
+                    if (desejaContinuar("Deseja continuar? (S / N)")) break;
+                }
+            }
 
-                construtorDoDiamante(alfabetoArray, indexDoArray);
 
+            static bool desejaContinuar(string texto)
+            {
+                Console.WriteLine(texto);
+                string decisao = Console.ReadLine().ToUpper();
+                Console.Clear();
+                return decisao == "N";
             }
 
             static tipo obterValor<tipo>(string texto) // Método que recebe e converte o valor, o tipo da conversão é feito com um indicador na declaração do método;
@@ -32,62 +41,66 @@
                     return obterValor<tipo>(texto);
                 }
             }
-        }
 
-        private static void dadosDoDiamante(string letra, out char[] alfabetoArray, out int indexDoArray)
-        {
-            string alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            alfabetoArray = alfabeto.ToCharArray(0, alfabeto.Length);
-            indexDoArray = alfabeto.IndexOf(letra);
-            // Filtro que indica posição da letra digitada dentro do array alfabetoArray;
-        }
 
-        private static void construtorDoDiamante(char[] alfabetoArray, int indexDoArray)
-        {
-
-            #region Topo do diamante de letras
-            for (int i = 0; i <= indexDoArray; i++) // altura do diamante, base da letra escrita;
+            static void dadosDoDiamante(out char[] alfabetoArray, out int indexDoArray)
             {
-                for (int j = 0; j < indexDoArray - i; j++)
+                string letra = obterValor<string>("Digite uma letra para gerar o diamante: "); // Veja a linha 20;
+                string alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                alfabetoArray = alfabeto.ToCharArray(0, alfabeto.Length);
+                indexDoArray = alfabeto.IndexOf(letra);
+                // Filtro que indica posição da letra digitada dentro do array alfabetoArray;
+                construtorDoDiamante(alfabetoArray, indexDoArray);
+
+            }
+
+            static void construtorDoDiamante(char[] alfabetoArray, int indexDoArray)
+            {
+
+                #region Topo do diamante de letras
+                for (int i = 0; i <= indexDoArray; i++) // altura do diamante, base da letra escrita;
                 {
-                    Console.Write(" ");
-                }
-                Console.Write(alfabetoArray[i]);
-                if (i > 0)
-                {
-                    for (int j = 0; j < 2 * i - 1; j++)
+                    for (int j = 0; j < indexDoArray - i; j++)
                     {
                         Console.Write(" ");
                     }
                     Console.Write(alfabetoArray[i]);
+                    if (i > 0)
+                    {
+                        for (int j = 0; j < 2 * i - 1; j++)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.Write(alfabetoArray[i]);
 
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
-            }
-            #endregion
+                #endregion
 
-            // Mesma lógica, inversa do topo
-            #region Base do diamante de letras
-            for (int i = indexDoArray - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < indexDoArray - i; j++)
+                // Mesma lógica, inversa do topo
+                #region Base do diamante de letras
+                for (int i = indexDoArray - 1; i >= 0; i--)
                 {
-                    Console.Write(" ");
-
-                }
-                Console.Write(alfabetoArray[i]);
-
-                if (i > 0)
-                {
-                    for (int j = 0; j < 2 * i - 1; j++)
+                    for (int j = 0; j < indexDoArray - i; j++)
                     {
                         Console.Write(" ");
+
                     }
                     Console.Write(alfabetoArray[i]);
+
+                    if (i > 0)
+                    {
+                        for (int j = 0; j < 2 * i - 1; j++)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.Write(alfabetoArray[i]);
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
+                #endregion
             }
-            #endregion
         }
     }
 }
